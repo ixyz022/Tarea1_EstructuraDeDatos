@@ -1,0 +1,24 @@
+LISTA aux, del;
+
+    if (*list != NULL) {
+        del = NULL;
+        aux = *list;
+
+        while (aux != NULL)
+        {
+            if (aux -> dato == elem){
+                del = aux;
+                break;
+            }
+            aux = aux -> sig;
+        }
+        printf("%d, %d", aux->dato, del->dato);
+
+		if(del != NULL){
+			del -> sig = aux -> sig;
+		}			
+        else{
+			*list = aux->sig;
+		}
+        free(aux);
+	}

@@ -1,4 +1,5 @@
 # Tarea1_EstructuraDeDatos  
+
 ## Documentacion utilizada
 
 ctrl + shift + v: Para abrir  
@@ -8,6 +9,7 @@ ctrl + shift + v: Para abrir
 [Estructuras en C - Uso de typedef](https://www.youtube.com/watch?v=OYcrRZbZjfU)  
 [48- Programación en C - Listas enlazadas simples I](https://www.youtube.com/watch?v=9DnuqpSFvlc)  
 [49- Programación en C - Listas enlazadas simples II](https://www.youtube.com/watch?v=3q8935EP4Oc)  
+[Programación en C Borrar Nodo Lista simple](https://www.youtube.com/watch?v=p6EIEyXKzxU)
 
 Lista simplemente enlazada  
 [x] size() How many elements are in the list?  
@@ -23,3 +25,6 @@ remove(L.size()-1) Remove the element at the back of the list.
 remove(0) Remove the element at the front of the list.  
 remove(element) Remove the given element from the coalition.  
 remove(position) Remove the element at the given position.  
+
+# Punteros dobles  
+https://es.acervolima.com/puntero-doble-puntero-a-puntero-en-c/  

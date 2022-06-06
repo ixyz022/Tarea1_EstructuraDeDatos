@@ -1,5 +1,5 @@
 /*  Manejo de una lista simplemente enlazada
-    Asael García
+    Asael Garcï¿½a
     18/09/2015
 */
 #include <stdio.h>
@@ -39,7 +39,7 @@ int main()
     return 0;
 }
 
-//Función para crear un nuevo nodo de la lista
+//Funciï¿½n para crear un nuevo nodo de la lista
 NODO* CrearNodo(int dato)
 {
     NODO *nuevo = NULL;
@@ -54,7 +54,7 @@ NODO* CrearNodo(int dato)
     return nuevo;
 }
 
-//Función para insertar un nodo al principio de la lista
+//Funciï¿½n para insertar un nodo al principio de la lista
 int InsertarInicio(NODO **cabeza, int dato)
 {
     NODO* nuevo = NULL;
@@ -70,7 +70,7 @@ int InsertarInicio(NODO **cabeza, int dato)
     return 0;
 }
 
-//Función para imprimir todos los datos de la lista
+//Funciï¿½n para imprimir todos los datos de la lista
 void ImprimirLista(NODO *cabeza)
 {
     NODO *nAux = cabeza;
@@ -82,7 +82,7 @@ void ImprimirLista(NODO *cabeza)
     }
 }
 
-//Función para insertar un nodo al final de la lista
+//Funciï¿½n para insertar un nodo al final de la lista
 int InsertarFinal(NODO **cabeza, int dato)
 {
     NODO* nuevo = NULL, *nAux = *cabeza;
@@ -100,7 +100,7 @@ int InsertarFinal(NODO **cabeza, int dato)
     return 0;
 }
 
-//Función para verificar si una lista está vacía
+//Funciï¿½n para verificar si una lista estï¿½ vacï¿½a
 int EstaVacia(NODO *cabeza)
 {
     if ( cabeza == NULL)
@@ -109,7 +109,7 @@ int EstaVacia(NODO *cabeza)
         return 0;
 }
 
-//Función para verificar si existe un elemento en la lista
+//Funciï¿½n para verificar si existe un elemento en la lista
 int ExisteElemento(NODO *cabeza, int dato)
 {
     NODO *nAux = cabeza;

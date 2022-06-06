@@ -4,101 +4,128 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
-// Estructura del nodo
-typedef struct Nodo
+// Estructura de un nodo
+typedef struct nodo
 {
     int dato;
-    struct Nodo *sig; // Definicion recursiva
+    struct nodo *sig; // Definicion recursiva
 } NODO;
 
-// Estructura de la lista
-typedef NODO* LISTA;
-
 //funciones
-LISTA lista();
-void addEnd (LISTA *list, int n);
-void showList (LISTA list);
-void sizeList (LISTA list);
+NODO *crearNodo(int elem); // Funcion que retorna un nuevo NODO
+void tamanoLista (NODO *cabeza); // Tamaño de la lista
+void mostrarLista (NODO *cabeza); // Muestra la lista
+bool estaVacia (NODO *cabeza); // Consultar si la lista esta vacia
+void insertarFinal(NODO **cabeza, int elem); // Añadir un elemento al final de la lista
+void insertarInicio(NODO **cabeza, int elem); // Añadir un elemento al inicio de la lista
+bool encontrarElemento(NODO *cabeza, int elem); // ¿Se encuentra el elemento?
 
 
 int main(int argc, char const *argv[])
 {
-    LISTA list;
-    list = lista();
-    addEnd(&list, 1);
-    addEnd(&list, 2);
-    addEnd(&list, 3);
-    addEnd(&list, 4);
-    addEnd(&list, 5);
-    showList(list);
-    sizeList(list);
+    NODO *cabeza = NULL; // Inicializamos el inicio de nuestra lista
+    insertarFinal(&cabeza, 5);
+    insertarInicio(&cabeza, 4);
+    insertarFinal(&cabeza, 9);
+    mostrarLista(cabeza);
+    tamanoLista(cabeza);
+    
+    if (encontrarElemento(cabeza,5)){
+        printf("Se a encontrado el elemento");
+    } else {
+        printf("No se a encontrado el elemento");
+    }
 }
 
-LISTA createNodo (int dato) {
-    LISTA nodo;
-    nodo = (LISTA)malloc(sizeof(NODO));
+/* Como requisito inicial necesitamos disponer de la funcion
+que nos permita crerar los nodos que posteriormente seran 
+insertados */
+
+NODO *crearNodo (int elem) {
+    NODO *nuevo = NULL; // Creamos el elemento nodo vacio
+
+    nuevo = (NODO*)malloc(sizeof(NODO));
     /* ¿Que hace sizeof?
     Reserva el espacio en memoria segun el tipo que especificamos */
     /* ¿Que hace malloc?
     Solicita un bloque de memoria del tamañano suministrado como
     parametro, devolviendo un puntero de la zona de memoria concedida*/
 
-    nodo -> dato = dato; // Guardamos elem en el campo dato del nodo
-    nodo -> sig = NULL; // Siguiente no apunta a nada
-    
-    return nodo;
-}
+    nuevo -> dato = elem; // Guardamos elem en el campo dato del nodo
+    nuevo -> sig = NULL; // Siguiente no apunta a nada
 
-// Creamos una lista vacia
-LISTA lista(){
-    return NULL;
+    return nuevo; // Retornamos un elemento nodo
 }
 
 //OPERACIONES
 
-// Tamaño de la lista
-void sizeList (LISTA list) { //pasamos la lista por valor
-    // Implementamos una variable auxiliar que utilizaremos como contador
-    int aux = 0;
-
-    while (list != NULL) { // Contamos todos los nodos
-        aux++;
-        list = list -> sig;
-    }
-    printf("\n%d",aux); // imprimir el resultado
-}
-
-// Mostramos la lista
-void showList (LISTA list) { //pasamos la lista por valor
-    if (list != NULL) { // ¿Esta vacia la lista?
-        while (list != NULL){
-        // Todos los nodos
-            printf("%d ", list->dato);
-            list = list -> sig;
-        }
-    } else {
-        printf("\nLista vacia");
-    }
-}
-
-// Añadir un elemento al final de la lista
-void addEnd (LISTA *list, int dato) {
-    LISTA aux, nodo;
+void tamanoLista (NODO *cabeza) { 
+    NODO *nAux = cabeza;
+    int contador = 0;
     
-    //Preguntamos si la lista esta vacia
-    if (*list != NULL){
-        aux = *list; //guardamos la posicion del puntero para no perderlo
-        //Buscamos el ultimo nodo
-        while (aux-> sig != NULL){ //si no tengo aux->sig pierdo la referencia del ultimo nodo
-        // aux -> sig hasta el ultimo nodo
-            aux = aux -> sig;
+    while (nAux != NULL) {
+        contador++;
+        nAux = nAux -> sig;
+    }
+
+    printf("\nEl tamano de la lista es: %d\n", contador);
+}
+
+void mostrarLista (NODO *cabeza) { 
+    NODO *nAux = cabeza;
+
+    while( nAux != NULL)
+    {
+        printf("%d ", nAux->dato);
+        nAux = nAux->sig;
+    }
+}
+
+bool estaVacia (NODO *cabeza) {
+    if (cabeza == NULL) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+void insertarInicio (NODO **cabeza, int elem) {
+    if (*cabeza != NULL) {
+        NODO *nuevo = crearNodo(elem);
+        
+        nuevo -> sig = *cabeza;
+        *cabeza = nuevo;
+    }
+}
+
+void insertarFinal (NODO **cabeza, int elem) {
+    if(*cabeza != NULL) {
+        NODO *nuevo = crearNodo(elem), *nAux = *cabeza;
+
+        while(nAux->sig != NULL)
+        {
+            nAux = nAux->sig;
         }
-        // creo el nodo
-        aux->sig = createNodo(dato);
+        nAux->sig = nuevo;
     }
     else {
-        nodo = createNodo(dato);
-        *list = nodo;
+        *cabeza = crearNodo(elem);
     }
+
 }
+
+bool encontrarElemento(NODO *cabeza, int elem) {
+    NODO *nAux = cabeza;
+
+    while (nAux != NULL) {
+        if (nAux -> dato == elem){
+            return true;
+        }
+        nAux = nAux ->sig;
+    }
+    return false;  
+}
+
+// Eliminar un elemento desde la posicion
