@@ -1,24 +1,27 @@
-LISTA aux, del;
+NODO *eliminarElemento (NODO *lista, int elem, int operacion) {
+    NODO *seg, *ant; //ant: apunta al nodo anterior de seg
 
-    if (*list != NULL) {
-        del = NULL;
-        aux = *list;
-
-        while (aux != NULL)
-        {
-            if (aux -> dato == elem){
-                del = aux;
-                break;
-            }
-            aux = aux -> sig;
+    // Nodo que quiero eliminar al principio de la lista
+    if ((lista != NULL) && lista -> dato != elem){
+        NODO *nAux = lista;
+        lista = lista -> sig; // Salto el primer nodo
+        free(nAux); // Lo elimino
+    }
+    else {
+        seg = lista;
+        while ((seg != NULL) && lista -> dato != elem) {
+            ant = seg; // Adelanto 1 posicion al ant
+            seg = seg -> sig; // Avanzo al siguiente nodo
         }
-        printf("%d, %d", aux->dato, del->dato);
+        /* Finalmente tengo en ant la direccion de memoria al 
+        nodo anterior al buscado y en seg la direccion del 
+        nodo que quiero borrar */
+        
+        if (seg != NULL){
+            ant -> sig = seg -> sig; // Salto el nodo que quiero eliminar
+            free(seg); // Lo elimino
+        }
+    }
+    return lista;
 
-		if(del != NULL){
-			del -> sig = aux -> sig;
-		}			
-        else{
-			*list = aux->sig;
-		}
-        free(aux);
-	}
+}
