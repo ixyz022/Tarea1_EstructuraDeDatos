@@ -15,12 +15,13 @@ typedef struct nodo
 
 //funciones
 NODO *crearNodo(int elem); // Funcion que retorna un nuevo NODO
-void tamanoLista (NODO *lista); // Tamaño de la lista
+int tamanoLista (NODO *lista); // Tamaño de la lista
 void mostrarLista (NODO *lista); // Muestra la lista
 void estaVacia (NODO *lista); // Consultar si la lista esta vacia
 void insertarFinal(NODO **lista, int elem); // Añadir un elemento al final de la lista
 void insertarInicio(NODO **lista, int elem); // Añadir un elemento al inicio de la lista
 void eliminarElemento (NODO **lista, int elem, int operacion); // Eliminar un elemento de la lista desde su posicion o valor
+void vaciarLista (NODO **lista); // Vaciar la lista
 NODO *encontrarElemento(NODO **lista, int elem, int operacion); // Encontrar un elemento desde su posicion o valor
 
 int main(int argc, char const *argv[])
@@ -28,9 +29,9 @@ int main(int argc, char const *argv[])
     NODO *lista = NULL; // Inicializamos el inicio de nuestra lista
     insertarFinal(&lista, 5);
     insertarInicio(&lista, 4);
-    insertarFinal(&lista, 9);
+    insertarFinal(&lista, 7);
     mostrarLista(lista);
-    tamanoLista(lista);
+    printf("\nEl tamano de la lista es: %d\n", tamanoLista(lista));
     
     /* operacion: 
     0.- encontrar desde la posicion del elemento
@@ -39,14 +40,20 @@ int main(int argc, char const *argv[])
     NODO *encontrado = encontrarElemento(&lista,2, 0);
 
     if (encontrado != 0){
-        printf("Se a encontrado el elemento %d", encontrado->dato);
+        printf("Se a encontrado el elemento %d\n", encontrado->dato);
     } else {
-        printf("No se a encontrado el elemento");
+        printf("No se a encontrado el elemento\n");
     }
 
+    printf("\nELIMINAR");
     eliminarElemento(&lista, 4,1);
     mostrarLista(lista);
-    tamanoLista(lista);
+    printf("\nEl tamano de la lista es: %d", tamanoLista(lista));
+
+    printf("\nVACIAR");
+    vaciarLista(&lista);
+    mostrarLista(lista);
+    printf("\nEl tamano de la lista es: %d", tamanoLista(lista));
 
 }
 
@@ -72,7 +79,7 @@ NODO *crearNodo (int elem) {
 
 //OPERACIONES
 
-void tamanoLista (NODO *lista) { 
+int tamanoLista (NODO *lista) { 
     NODO *nAux = lista;
     int contador = 0;
     
@@ -81,18 +88,20 @@ void tamanoLista (NODO *lista) {
         nAux = nAux -> sig;
     }
 
-    printf("\nEl tamano de la lista es: %d\n", contador);
+    return contador;
 }
 
 void mostrarLista (NODO *lista) { 
-    NODO *nAux = lista;
+    if (lista != NULL) {
+        NODO *nAux = lista;
 
-    printf("\nNodos dentro de la lista: ");
-    while( nAux != NULL)
-    {
-        printf("%d ", nAux->dato);
-        nAux = nAux->sig;
-    }
+        printf("\nNodos dentro de la lista: ");
+        while( nAux != NULL)
+        {
+            printf("%d ", nAux->dato);
+            nAux = nAux->sig;
+        }
+    } else {printf("\nLa lista se encuentra vacia");}
 }
 
 void estaVacia (NODO *lista) {
@@ -101,6 +110,10 @@ void estaVacia (NODO *lista) {
     } else {
         printf("\nLa lista se encuentra con almenos un elemento");
     }
+}
+
+void vaciarLista (NODO **lista){
+    *lista = NULL;
 }
 
 void insertarInicio (NODO **lista, int elem) {
@@ -125,55 +138,55 @@ void insertarFinal (NODO **lista, int elem) {
     else {
         *lista = crearNodo(elem);
     }
-
-
 }
 
 NODO *encontrarElemento(NODO **lista, int elem, int operacion) {
-    NODO *nAux = *lista;
-    int contador = 0;
+    if (*lista != NULL){
+        NODO *nAux = *lista;
+        int contador = 0;
 
-    while (nAux != NULL) {
-        if (contador == elem && operacion == 0){ 
-            return nAux;
-        } 
-        else if (nAux->dato == elem && operacion == 1){
-            return nAux;
+        while (nAux != NULL) {
+            if (contador == elem && operacion == 0){ 
+                return nAux;
+            } 
+            else if (nAux->dato == elem && operacion == 1){
+                return nAux;
+            }
+            contador++;
+            nAux = nAux -> sig;
         }
-        contador++;
-        nAux = nAux -> sig;
-    }
-    return 0;  
+        return 0;  
+        }
 }
 
 // Eliminar un elemento desde la posicion
 void eliminarElemento (NODO **lista, int elem, int operacion) {
     if (*lista != NULL){
-        NODO *aux = *lista, *ant = NULL;
+        NODO *nAux = *lista, *ant = NULL;
         int contador = 0;
         
         if (operacion == 0){
-            while (aux != NULL && contador != elem) {
+            while (nAux != NULL && contador != elem) {
             contador++;
-            ant = aux;
-            aux = aux -> sig;
+            ant = nAux;
+            nAux = nAux -> sig;
             }
         }
         else if (operacion == 1) {
-            while (aux != NULL && aux -> dato != elem) {
-            ant = aux;
-            aux = aux -> sig;
+            while (nAux != NULL && nAux -> dato != elem) {
+            ant = nAux;
+            nAux = nAux -> sig;
             }
         }
 
-        if (aux != NULL) {
+        if (nAux != NULL) {
             if (ant != NULL){
-                ant -> sig = aux -> sig;        
+                ant -> sig = nAux -> sig;        
             }
             else {
-                *lista = aux -> sig;
+                *lista = nAux -> sig;
             }     
-            free(aux);
+            free(nAux);
         }else {printf("\nNo se encontro el elemento");}
     } else {printf("\nNo se puede eliminar");}
 }
